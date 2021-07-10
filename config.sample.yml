@@ -1,0 +1,48 @@
+backup:
+  #before: some_command
+  folder: /app/db_backups
+  zip: true
+  max_items: 10
+  #after: some_command
+
+databases:
+  - address: mariadb
+    user: USER
+    password: PASSWORD
+    type: mysql
+    database: 
+      gitea: mariadb/gitea.sql
+      guacamole: mariadb/guacamole.sql
+    enabled: true
+
+  - address: postgresql
+    user: USER
+    password: PASSWORD
+    type: postgres
+    database: 
+      netbox: netbox.sql
+    enabled: true
+
+  - address: mongo
+    type: mongo
+    database: 
+      graylog: graylog
+    enabled: false
+
+  - address: influxdb
+    type: influx
+    database: 
+      home_assistant: influxdb/home_assistant
+    enabled: true
+
+  - type: copy
+    #before: some_command
+    database: 
+      /mnt/grocy.db: grocy.db
+    #after: some_command
+    enabled: true
+
+
+settings:
+  cron: 0 3 * * 1
+
