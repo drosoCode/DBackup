@@ -79,11 +79,14 @@ for i in config["databases"]:
         providers[i["type"]] = importProvider(i["type"])
 print("loaded", len(providers), "providers")
 
-cron = croniter.croniter(config["settings"]["cron"], datetime.datetime.now())
+cron = None
+if config["settings"]["cron"] != "":
+    cron = croniter.croniter(config["settings"]["cron"], datetime.datetime.now())
 while True:
     # start a backup
     backup(providers, config)
-
+    if cron is None:
+        break
     # sleep until next occurrence
     nxt = cron.get_next(datetime.datetime)
     print("Next backup:", nxt)
